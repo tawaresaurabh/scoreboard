@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{default}">
+<head>
+    <meta charset="UTF-8">
+    <title>Score board</title>
+</head>
+<body>
+<div layout:fragment="page_content" id="page_content">
+    <div class="container">
+        <div class="form-row">
+            <h3 class="text-center">Score board</h3>
+        </div>
+
+        <table  id="playerRecords" class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Player Name</th>
+                <th scope="col" >Points</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="playerRecord: ${playerRecordList}">
+                <td th:text="${playerRecord.playerName}" />
+                <td th:text="${playerRecord.points}" />
+            </tr>
+            </tbody>
+        </table>
+
+        <form action="#" th:action="@{/createRecord}" th:object="${playerRecordForm}" method="post">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="playerName">Player Name</label>
+                    <input type="text" required minlength="2"  maxlength="100" th:field="*{playerName}" class="form-control" id="playerName">
+                    <span th:if="${#fields.hasErrors('playerName')}" th:errors="*{playerName}">Player Name Error</span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="points">Points</label>
+                    <input type="number" required min="0" max="100" th:field="*{points}" class="form-control" id="points">
+                    <span th:if="${#fields.hasErrors('points')}" th:errors="*{points}">Points Error</span>
+                </div>
+            </div>
+            <div class="form-row">
+                <button type="submit" class="btn btn-primary">Add Record</button>
+            </div>
+
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<th:block layout:fragment="scripts">
+
+
+    <script>
+        $(document).ready(function() {
+            $('#playerRecords').DataTable();
+        } );
+    </script>
+
+
+
+</th:block>
+
+
+</body>
+</html>
